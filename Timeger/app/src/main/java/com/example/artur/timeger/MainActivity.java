@@ -15,11 +15,6 @@ import android.view.View;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    //elo kruwa troche mnei tu nie bylodsadsads
-    // Robimy git program
-    // drugi git
-    // trzeci
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
