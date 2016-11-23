@@ -14,7 +14,7 @@ import android.view.View;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    //Robimy git program
+    // Robimy git program
     // drugi git
     // trzeci
 
