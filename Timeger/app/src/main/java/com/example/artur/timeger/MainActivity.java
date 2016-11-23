@@ -14,7 +14,7 @@ import android.view.View;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    //elo kruwa troche mnei tu nie bylo
+    //elo kruwa troche mnei tu nie bylodsadsads
     //Robimy git program
     // drugi git
     // trzeci
