@@ -20,6 +20,8 @@ public class MainActivity extends AppCompatActivity
     // drugi git
     // trzeci
 
+    //elo co tam u ciebie kuba?
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
