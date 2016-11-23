@@ -14,15 +14,17 @@ import android.view.View;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
 <<<<<<< HEAD
     //elo kruwa troche mnei tu nie bylodsadsads
-    //Robimy git program
-=======
     // Robimy git program
->>>>>>> 8b3ce4f382cb2d024ee895ca2bb749fb3bb6875d
     // drugi git
     // trzeci
 
+    //elo co tam u ciebie kuba?
+
+=======
+>>>>>>> b2be1173f9ba042b24f0bdd604fd743d63b3c212
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
