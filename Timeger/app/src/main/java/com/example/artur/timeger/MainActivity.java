@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     //Robimy git program
+    // drugi git
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
