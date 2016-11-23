@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Timeger</string>
+    <string name="loginButtonName">Zaloguj się</string>
+    <string name="registerButtonName">Zarejestruj się</string>
+    <string name="loginInputHint">Podaj swój login bądz email</string>
+    <string name="passwordInputHint">Podaj hasło</string>
+    <string name="forgetPasswordName">Zapomniałeś hasła bądź loginu?</string>
+    <string name="quitApplicationButtonName">Wyjdź z aplikacji</string>
+    <string name="registerLoginReceive">Podaj login do rejestracji badz adres email</string>
+    <string name="registerPasswordReceive">Podaj hasło do nowego konta</string>
+    <string name="registerButtonReceive">Zarejestruj się</string>
+    <string name="registerButtonBackReceive">Wróć</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+</resources>

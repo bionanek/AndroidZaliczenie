@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="Profil">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/myProfile"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="Mój profil" />
+        <item
+            android:id="@+id/myFriends"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="Znajomi" />
+    </group>
+    </item>
+
+    <item android:title="Zarządzanie">
+        <menu>
+            <item
+                android:id="@+id/quitApplication"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Wyjdz z aplikacji" />
+            <item
+                android:id="@+id/shareAppWithSomeone"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Podziel się aplikacją ze znajomymi!" />
+        </menu>
+    </item>
+
+</menu>
