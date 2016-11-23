@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity
 
     //Robimy git program
     // drugi git
+    // trzeci
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
