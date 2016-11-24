@@ -11,6 +11,10 @@
     <string name="registerButtonReceive">Zarejestruj się</string>
     <string name="registerButtonBackReceive">Wróć</string>
     <string name="title_activity_main">MainActivity</string>
+    
+    <!-- Kolory tla-->
+    <color name="blockBackground">#ED7200</color>
+    <color name="parentBackground">#200F00</color>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

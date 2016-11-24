@@ -2,10 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/parentBackground"
     android:id="@+id/content_main2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="0dp"
+    android:paddingTop="@dimen/activity_horizontal_margin"
+    android:paddingBottom="@dimen/activity_horizontal_margin"
+    android:paddingStart="@dimen/activity_horizontal_margin"
+    android:paddingEnd="@dimen/activity_horizontal_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:orientation="vertical"
     tools:context="com.example.artur.timeger.MainActivity"
@@ -16,93 +20,199 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <!-- layout ogolny do przewijania -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:id="@+id/mainScrollingLayout">
 
+            <!-- pierwszy wiersz -->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="300dp"
                 android:orientation="horizontal">
-                <Button
+
+                <!-- layout do pierwszego kafelka -->
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
                     android:layout_weight="1"
-                    android:text="Pierwszy"
-                    android:padding="0dp"/>
-                <Button
+                    android:layout_margin="1dp"
+                    android:background="@color/blockBackground">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:text="Tytul"
+                        android:gravity="center"
+                        />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:text="Data"
+                        android:layout_marginTop="-10.5dp"
+                        android:gravity="center" />
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:layout_weight="1"
+                        android:text="Zrobione"
+                        android:layout_marginTop="-10.5dp"/>
+                </LinearLayout>
+
+                <!-- layout do drugiego kafelka -->
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
                     android:layout_weight="1"
-                    android:text="Drugi"
-                    android:padding="0dp"/>
+                    android:layout_margin="1dp"
+                    android:background="@color/blockBackground">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:text="Tytl"
+                        android:gravity="center"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:text="Data"
+                        android:layout_marginTop="-10.5dp"
+                        android:gravity="center" />
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:layout_weight="1"
+                        android:text="Zrobione"
+                        android:layout_marginTop="-10.5dp"/>
+                </LinearLayout>
+
             </LinearLayout>
 
+            <!-- drugi wiersz -->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="300dp"
                 android:orientation="horizontal">
-                <Button
+
+                <!-- trzeci kafelek -->
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_weight="1"
-                    android:text="Trzeci" />
-                <Button
+                    android:layout_height="match_parent"
+                    android:layout_margin="1dp"
+                    android:background="@color/blockBackground"
+                    android:orientation="vertical"
+                    android:layout_weight="1">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:text="Tytl"
+                        android:gravity="center"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:text="Data"
+                        android:layout_marginTop="-10.5dp"
+                        android:gravity="center" />
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:layout_weight="1"
+                        android:text="Zrobione"
+                        android:layout_marginTop="-10.5dp"/>
+                </LinearLayout>
+
+                <!-- czwarty kafelek -->
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_weight="1"
-                    android:text="Czwarty"
-                    />
+                    android:layout_height="match_parent"
+                    android:layout_margin="1dp"
+                    android:background="@color/blockBackground"
+                    android:orientation="vertical"
+                    android:layout_weight="1">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:text="Tytl"
+                        android:gravity="center"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:text="Data"
+                        android:layout_marginTop="-10.5dp"
+                        android:gravity="center" />
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:layout_weight="1"
+                        android:text="Zrobione"
+                        android:layout_marginTop="-10.5dp"/>
+                </LinearLayout>
             </LinearLayout>
 
+            <!-- trzeci wiersz -->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="300dp"
                 android:orientation="horizontal">
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_weight="1"
-                    android:text="Piaty" />
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_weight="1"
-                    android:text="Szosty"
-                    />
-            </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:orientation="horizontal">
-                <Button
+                <!-- Piąty kafelek -->
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_weight="1"
-                    android:text="Siodmy" />
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_weight="1"
-                    android:text="Osmy" />
-            </LinearLayout>
+                    android:layout_height="match_parent"
+                    android:layout_margin="1dp"
+                    android:background="@color/blockBackground"
+                    android:orientation="vertical"
+                    android:layout_weight="1">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:text="Tytl"
+                        android:gravity="center"/>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:orientation="horizontal">
-                <Button
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:text="Data"
+                        android:layout_marginTop="-10.5dp"
+                        android:gravity="center" />
+
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:layout_weight="1"
+                        android:text="Zrobione"
+                        android:layout_marginTop="-10.5dp"/>
+                </LinearLayout>
+
+                <!-- Szósty kafelek -->
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_weight="1"
-                    android:text="Dziewiaty" />
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_weight="1"
-                    android:text="Dziesiaty" />
+                    android:layout_height="match_parent"
+                    android:layout_margin="1dp"
+                    android:background="@color/blockBackground"
+                    android:orientation="vertical"
+                    android:layout_weight="1">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:text="Tytl"
+                        android:gravity="center"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:text="Data"
+                        android:layout_marginTop="-10.5dp"
+                        android:gravity="center" />
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:layout_weight="1"
+                        android:text="Zrobione"
+                        android:layout_marginTop="-10.5dp"/>
+                </LinearLayout>
             </LinearLayout>
 
         </LinearLayout>

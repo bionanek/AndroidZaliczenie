@@ -4,23 +4,38 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.GestureDetectorCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener,
+        GestureDetector.OnGestureListener,
+        GestureDetector.OnDoubleTapListener{
 
     //elo co tam u ciebie kuba?
+    private LinearLayout linearLayout;
+    private GestureDetectorCompat gestureDetectorCompat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //dodawanie czegos do gestow (jeszcze nie ogarniam)
+
+        gestureDetectorCompat = new GestureDetectorCompat(this,this);
+        gestureDetectorCompat.setOnDoubleTapListener(this);
+
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
 
@@ -95,5 +110,66 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    //metoda do wykrywania gestu przesuniecia palcem w gore
+    @Override
+    public boolean onTouchEvent(MotionEvent event)
+    {
+        gestureDetectorCompat.onTouchEvent(event);
+                return super.onTouchEvent(event);
+    }
+
+
+
+    //Te wszystkie metody ponizej trzeba utworzyc po dodaniu GestureDetector.OnGestureListener oraz GestureDetector.OnDoubleTapListener
+    //przy głownej klasie
+
+    @Override
+    public boolean onSingleTapConfirmed(MotionEvent motionEvent) {
+        return false;
+    }
+
+    @Override
+    public boolean onDoubleTap(MotionEvent motionEvent) {
+        return false;
+    }
+
+    @Override
+    public boolean onDoubleTapEvent(MotionEvent motionEvent) {
+        return false;
+    }
+
+    @Override
+    public boolean onDown(MotionEvent motionEvent) {
+        Toast.makeText(MainActivity.this,"Downowanie ",Toast.LENGTH_SHORT).show();
+        return false;
+    }
+
+    @Override
+    public void onShowPress(MotionEvent motionEvent) {
+
+    }
+
+    @Override
+    public boolean onSingleTapUp(MotionEvent motionEvent) {
+        return false;
+    }
+
+    @Override
+    public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+        Toast.makeText(MainActivity.this,"Scrollowanie ",Toast.LENGTH_SHORT).show();
+        return false;
+    }
+
+    @Override
+    public void onLongPress(MotionEvent motionEvent) {
+
+    }
+
+    @Override
+    public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+        Toast.makeText(MainActivity.this,"Flingowanie ",Toast.LENGTH_SHORT).show();
+        return false;
     }
 }
