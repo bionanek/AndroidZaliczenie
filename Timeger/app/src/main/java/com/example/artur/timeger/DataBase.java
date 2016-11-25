@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import java.io.File;
+
 /**
  * Created by bionanek on 25-11-2016.
  */
@@ -31,6 +33,7 @@ public class DataBase extends Activity
                     "pass VARCHAR, " +
                     "name VARCHAR, " +
                     "surname VARCHAR);");
+
         }
         catch (Exception ex)
         {
@@ -38,5 +41,11 @@ public class DataBase extends Activity
             return false;
         }
         return true;
+    }
+
+    public boolean checkDatabase()
+    {
+        File database = getApplicationContext().getDatabasePath("Timeger.db");
+        return database.exists();
     }
 }
