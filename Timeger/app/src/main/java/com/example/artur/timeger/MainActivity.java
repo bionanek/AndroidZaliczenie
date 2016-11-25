@@ -96,10 +96,18 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+        DataBase tworz = new DataBase();
+        Toast toast = new Toast(MainActivity.this);
         if (id == R.id.myProfile) {
             // Handle the camera action
         } else if (id == R.id.myFriends) {
 
+        } else if (id == R.id.addDatabaseSQLite) {
+            tworz.createDatabase();
+            Toast.makeText(MainActivity.this,"Utworzono baze danych",Toast.LENGTH_SHORT).show();
+
+        } else if (id == R.id.checkIfDatabaseExist) {
+            Toast.makeText(MainActivity.this,"Baza danych juz istnieje",Toast.LENGTH_SHORT).show();
         } else if (id == R.id.shareAppWithSomeone) {
 
         } else if (id == R.id.quitApplication) {
