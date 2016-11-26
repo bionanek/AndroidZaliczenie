@@ -14,18 +14,19 @@ public class Quest
     private String _createdAt;
     private String _questDate;
     private String _alarmDate;
+    private String _comments;
+    private String _status;
 
     private int _id;
 
     private boolean _isAlarmSet;
-    private boolean _status;
 
-    public boolean getStatus()
+    public String getStatus()
     {
         return _status;
     }
 
-    public void setStatus(boolean status)
+    public void setStatus(String status)
     {
         this._status = status;
     }
@@ -98,6 +99,16 @@ public class Quest
     public String getAlarmDate()
     {
         return _alarmDate;
+    }
+
+    public void setComments(String comments)
+    {
+        this._comments = comments;
+    }
+
+    public String getComments()
+    {
+        return this._comments;
     }
 
     public void setAlarm(String newAlarmDate)

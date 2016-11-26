@@ -1,11 +1,19 @@
 package com.example.artur.timeger.helper;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import java.security.PrivilegedAction;
+import com.example.artur.timeger.model.Quest;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by bionanek on 26-11-2016.
@@ -130,5 +138,118 @@ public class DatabaseHelper extends SQLiteOpenHelper
         {
             Log.e("Error upgrading db", ex.toString());
         }
+    }
+
+    //QUEST METHODS
+
+    public long createQuest(Quest quest, long[] tag_ids)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_DESCRIPTION, quest.getDescription());
+        values.put(KEY_STATUS, quest.getStatus());
+        values.put(KEY_QUEST_DATE, quest.getQuestDate());
+        values.put(KEY_ALARM_DATE, quest.getAlarmDate());
+        values.put(KEY_QUEST_PLACE, quest.getPlace());
+        values.put(KEY_TYPE, quest.getType());
+        values.put(KEY_COMMENTS, quest.getComments());
+        values.put(KEY_CREATED_AT, getDateTime());
+
+        // insert row
+        long quest_id = db.insert(TABLE_QUEST, null, values);
+
+        // assigning tags to quest
+        for (long tag_id : tag_ids)
+        {
+            createQuestTag(quest_id, tag_id);
+        }
+
+        return quest_id;
+    }
+
+    public Quest getQuest(long quest_id)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String selectQuery = "SELECT * FROM " + TABLE_QUEST +
+                " WHERE " + KEY_ID + " = " + quest_id;
+
+        Log.e(LOG, selectQuery);
+
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if(c != null)
+            c.moveToFirst();
+
+        Quest quest = new Quest();
+        quest.setId(c.getInt(c.getColumnIndex(KEY_ID)));
+        quest.setDescription(c.getString(c.getColumnIndex(KEY_DESCRIPTION)));
+        quest.setStatus(c.getString(c.getColumnIndex(KEY_STATUS)));
+        quest.setQuestDate((c.getString(c.getColumnIndex(KEY_QUEST_DATE))));
+        quest.setAlarm((c.getString(c.getColumnIndex(KEY_ALARM_DATE))));
+        quest.setPlace((c.getString(c.getColumnIndex(KEY_QUEST_PLACE))));
+        quest.setType((c.getString(c.getColumnIndex(KEY_TYPE))));
+        quest.setComments((c.getString(c.getColumnIndex(KEY_COMMENTS))));
+        quest.setCreatedAt((c.getString(c.getColumnIndex(KEY_CREATED_AT))));
+
+        return quest;
+    }
+
+    public long createQuestTag(long quest_id, long tag_id)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_QUEST_ID, quest_id);
+        values.put(KEY_TAG_ID, tag_id);
+        values.put(KEY_CREATED_AT, getDateTime());
+
+        long id = db.insert(TABLE_QUEST_TAG, null, values);
+
+        return id;
+    }
+
+    public List<Quest> getAllQuests()
+    {
+        List<Quest> quests = new ArrayList<>();
+        String selectQuery = "SELECT * FROM " + TABLE_QUEST;
+
+        Log.e(LOG, selectQuery);
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        // looping through rows -> add them to list
+        if(c.moveToFirst())
+        {
+            do
+            {
+                Quest quest = new Quest();
+                quest.setId(c.getInt(c.getColumnIndex(KEY_ID)));
+                quest.setDescription(c.getString(c.getColumnIndex(KEY_DESCRIPTION)));
+                quest.setStatus(c.getString(c.getColumnIndex(KEY_STATUS)));
+                quest.setQuestDate((c.getString(c.getColumnIndex(KEY_QUEST_DATE))));
+                quest.setAlarm((c.getString(c.getColumnIndex(KEY_ALARM_DATE))));
+                quest.setPlace((c.getString(c.getColumnIndex(KEY_QUEST_PLACE))));
+                quest.setType((c.getString(c.getColumnIndex(KEY_TYPE))));
+                quest.setComments((c.getString(c.getColumnIndex(KEY_COMMENTS))));
+                quest.setCreatedAt((c.getString(c.getColumnIndex(KEY_CREATED_AT))));
+
+                //ad this row to list
+                quests.add(quest);
+
+            }while(c.moveToNext());
+        }
+        return quests;
+    }
+
+    private String getDateTime()
+    {
+        SimpleDateFormat dateFormat = new SimpleDateFormat(
+                "yyy-MM-dd HH:mm:ss", Locale.getDefault());
+        Date date = new Date();
+
+        return dateFormat.format(date);
     }
 }
