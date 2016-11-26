@@ -59,7 +59,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
     private static final String KEY_TAG_NAME = "tag_name";
 
     // NOTE_TAGS Table - column names
-    private static final String KEY_QUEST_ID = "todo_id";
+    private static final String KEY_QUEST_ID = "quest_id";
     private static final String KEY_TAG_ID = "tag_id";
 
     //Table create statements
@@ -218,9 +218,42 @@ public class DatabaseHelper extends SQLiteOpenHelper
         Log.e(LOG, selectQuery);
 
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor c = db.rawQuery(selectQuery, null);
+        Cursor cursor = db.rawQuery(selectQuery, null);
 
-        // looping through rows -> add them to list
+        return this.getListOfQuests(cursor);
+    }
+
+    public List<Quest> getAllQuestsByTag(String tagName)
+    {
+        String selectQuery = "SELECT  * FROM " + TABLE_QUEST + " qst, "
+                + TABLE_TAG + " tg, " + TABLE_QUEST_TAG + " qt WHERE tg."
+                + KEY_TAG_NAME + " = '" + tagName + "'" + " AND tg." + KEY_ID
+                + " = " + "qt." + KEY_TAG_ID + " AND qst." + KEY_ID + " = "
+                + "qt." + KEY_QUEST_ID;
+
+        Log.e(LOG, selectQuery);
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        return this.getListOfQuests(cursor);
+    }
+
+
+
+    // helpers classes
+    private String getDateTime()
+    {
+        SimpleDateFormat dateFormat = new SimpleDateFormat(
+                "yyy-MM-dd HH:mm:ss", Locale.getDefault());
+        Date date = new Date();
+
+        return dateFormat.format(date);
+    }
+
+    private List<Quest> getListOfQuests(Cursor c)
+    {
+        List<Quest> quests = new ArrayList<>();
         if(c.moveToFirst())
         {
             do
@@ -236,20 +269,11 @@ public class DatabaseHelper extends SQLiteOpenHelper
                 quest.setComments((c.getString(c.getColumnIndex(KEY_COMMENTS))));
                 quest.setCreatedAt((c.getString(c.getColumnIndex(KEY_CREATED_AT))));
 
-                //ad this row to list
+                //adds this row to list
                 quests.add(quest);
 
             }while(c.moveToNext());
         }
         return quests;
-    }
-
-    private String getDateTime()
-    {
-        SimpleDateFormat dateFormat = new SimpleDateFormat(
-                "yyy-MM-dd HH:mm:ss", Locale.getDefault());
-        Date date = new Date();
-
-        return dateFormat.format(date);
     }
 }
