@@ -11,6 +11,24 @@
     <string name="registerButtonReceive">Zarejestruj się</string>
     <string name="registerButtonBackReceive">Wróć</string>
     <string name="title_activity_main">MainActivity</string>
+
+    <!-- DataBase -->
+    <string name="create_database">CREATE TABLE IF NOT EXISTS quests(
+                                    _id INTEGER primary key autoincrement,
+                                    description VARCHAR not null,
+                                    quest_date DATETIME,
+                                    alarm_date DATETIME,
+                                    quest_place VARCHAR,
+                                    type VARCHAR,
+                                    comments VARCHAR);
+                                    CREATE TABLE IF NOT EXISTS user(
+                                    _id INTEGER primary key autoincrement,
+                                    login VARCHAR,
+                                    pass VARCHAR,
+                                    name VARCHAR,
+                                    surname VARCHAR);</string>
+    <string name="database_name">Timeger.db</string>
+
     
     <!-- Kolory tla-->
     <color name="blockBackground">#ED7200</color>

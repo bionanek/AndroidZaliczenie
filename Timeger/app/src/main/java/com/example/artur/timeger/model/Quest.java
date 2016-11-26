@@ -1,4 +1,4 @@
-package com.example.artur.timeger;
+package com.example.artur.timeger.model;
 
 import java.util.Date;
 
@@ -11,61 +11,99 @@ public class Quest
     private String _type;
     private String _place;
     private String _description;
+    private String _createdAt;
+    private String _questDate;
+    private String _alarmDate;
+
     private int _id;
 
-    private Date _questDate;
-    private Date _alarmDate;
+    private boolean _isAlarmSet;
+    private boolean _status;
 
-    private boolean _isAlarmset;
+    public boolean getStatus()
+    {
+        return _status;
+    }
+
+    public void setStatus(boolean status)
+    {
+        this._status = status;
+    }
+
+    public String getCreatedAt()
+    {
+        return _createdAt;
+    }
+
+    public void setCreatedAt(String createdAt)
+    {
+        this._createdAt = createdAt;
+    }
 
     public String getDescription()
     {
         return this._description;
     }
+
     public void setDescription(String description)
     {
         this._description = description;
     }
+
     public int getId()
     {
         return this._id;
     }
+
+    public void setId(int id)
+    {
+        this._id = id;
+    }
+
     public String getType()
     {
         return _type;
     }
+
     public void setType(String newType)
     {
         this._type = newType;
     }
+
     public String getPlace()
     {
         return _place;
     }
+
     public void setPlace(String newPlace)
     {
         this._place = newPlace;
     }
-    public Date getQuestDate()
+
+    public String getQuestDate()
     {
         return _questDate;
     }
-    public void setQuestDate(Date newDate)
+
+    public void setQuestDate(String newDate)
     {
         this._questDate = newDate;
     }
-    public boolean IsAlarmset()
+
+    public boolean IsAlarmSet()
     {
-        return _isAlarmset;
+        return _isAlarmSet;
     }
-    public Date getAlarmDate()
+
+    public String getAlarmDate()
     {
         return _alarmDate;
     }
-    public void setAlarm(Date newAlarmDate)
+
+    public void setAlarm(String newAlarmDate)
     {
         this._alarmDate = newAlarmDate;
-        this._isAlarmset = true;
+        this._isAlarmSet = true;
     }
     @Override
     public String toString(){
