@@ -4,6 +4,15 @@
     <item android:title="Profil">
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/addDatabaseSQLite"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Stwórz bazę"/>
+        <item
+            android:id="@+id/checkIfDatabaseExist"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Sprawdz czy baza istnieje"
+            />
+        <item
             android:id="@+id/myProfile"
             android:icon="@drawable/ic_menu_camera"
             android:title="Mój profil" />

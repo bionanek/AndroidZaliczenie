@@ -1,43 +1,35 @@
 package com.example.artur.timeger;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
-import android.support.v4.view.GestureDetectorCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.widget.Button;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,
-        GestureDetector.OnGestureListener,
-        GestureDetector.OnDoubleTapListener{
+        implements NavigationView.OnNavigationItemSelectedListener{
 
     //elo co tam u ciebie kuba?
-    private LinearLayout linearLayout;
-    private GestureDetectorCompat gestureDetectorCompat;
+    private static final int NUM_ROWS = 8;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //dodawanie czegos do gestow (jeszcze nie ogarniam)
-
-        gestureDetectorCompat = new GestureDetectorCompat(this,this);
-        gestureDetectorCompat.setOnDoubleTapListener(this);
-
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
+        populateButton();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -96,80 +88,138 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+        DataBase tworz = new DataBase();
+        Toast toast = new Toast(MainActivity.this);
         if (id == R.id.myProfile) {
             // Handle the camera action
         } else if (id == R.id.myFriends) {
 
+        } else if (id == R.id.addDatabaseSQLite) {
+            tworz.createDatabase();
+            Toast.makeText(MainActivity.this,"Utworzono baze danych",Toast.LENGTH_SHORT).show();
+
+        } else if (id == R.id.checkIfDatabaseExist) {
+            Toast.makeText(MainActivity.this,"Baza danych juz istnieje",Toast.LENGTH_SHORT).show();
         } else if (id == R.id.shareAppWithSomeone) {
 
         } else if (id == R.id.quitApplication) {
             System.exit(0);
         }
 
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
-    //metoda do wykrywania gestu przesuniecia palcem w gore
-    @Override
-    public boolean onTouchEvent(MotionEvent event)
-    {
-        gestureDetectorCompat.onTouchEvent(event);
-                return super.onTouchEvent(event);
+
+    // KAFELKI MADE BY WUJEK SAJMON
+
+    private void populateButton() {
+
+        TableLayout table = (TableLayout) findViewById(R.id.TableFourButtons);
+        table.setBackgroundColor(Color.RED);
+
+
+        //tutaj robi do chuja pana wiersze
+        for (int row = 0; row < NUM_ROWS; row++) {
+            TableRow tableRow = new TableRow(this);
+            tableRow.setLayoutParams(new TableLayout.LayoutParams(
+                    TableLayout.LayoutParams.MATCH_PARENT,
+                    TableLayout.LayoutParams.MATCH_PARENT,
+                    1.0f
+            ));
+
+            TableLayout.LayoutParams lp =
+                    new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,
+                            TableLayout.LayoutParams.WRAP_CONTENT);
+            lp.setMargins(5, 5, 5, 5);
+            tableRow.setLayoutParams(lp);
+            table.addView(tableRow, lp);
+
+            //tutaj do chuja pana robi kolumny
+            for (int col = 0; col < 2; col++) {
+                TableLayout tab = new TableLayout(this);
+
+                //tutaj ustawia rozmar komorki?!
+                TableRow.LayoutParams elo = new TableRow.LayoutParams(
+                        TableRow.LayoutParams.MATCH_PARENT,
+                        TableRow.LayoutParams.MATCH_PARENT,
+                        1.0f
+                );
+
+                tab.setBackgroundColor(Color.YELLOW);
+                elo.setMargins(5,0,5,0);
+                tab.setLayoutParams(elo);
+                tableRow.addView(tab);
+
+                //to jest cos od pierwszego labela
+                TableRow tableRowDate = new TableRow(this);
+                tableRowDate.setLayoutParams(new TableRow.LayoutParams(
+                        TableRow.LayoutParams.MATCH_PARENT,
+                        TableRow.LayoutParams.MATCH_PARENT,
+                        1.0f
+                ));
+                tab.addView(tableRowDate, lp);
+
+
+                TextView data = new TextView(this);
+                data.setText("WYRUCHAC JAKUBA");
+                data.setLayoutParams(new TableRow.LayoutParams(
+                        TableRow.LayoutParams.MATCH_PARENT,
+                        TableRow.LayoutParams.MATCH_PARENT,
+                        1.0f
+                ));
+                tableRowDate.addView(data);
+
+
+                TableRow tableRowdata2 = new TableRow(this);
+                tableRowdata2.setLayoutParams(new TableRow.LayoutParams(
+                        TableRow.LayoutParams.MATCH_PARENT,
+                        TableRow.LayoutParams.MATCH_PARENT,
+                        1.0f
+                ));
+                tab.addView(tableRowdata2, lp);
+
+
+                TextView data2 = new TextView(this);
+                data2.setText("26/11/2016");
+                data2.setLayoutParams(new TableRow.LayoutParams(
+                        TableRow.LayoutParams.MATCH_PARENT,
+                        TableRow.LayoutParams.MATCH_PARENT,
+                        1.0f
+                ));
+                tableRowdata2.addView(data2);
+
+
+                TableRow tableRowButton = new TableRow(this);
+                tableRowButton.setLayoutParams(new TableRow.LayoutParams(
+                        TableRow.LayoutParams.MATCH_PARENT,
+                        TableRow.LayoutParams.MATCH_PARENT,
+                        1.0f
+                ));
+                tab.addView(tableRowButton, lp);
+
+
+                final Button button = new Button(this);
+                button.setLayoutParams(new TableRow.LayoutParams(
+                        TableRow.LayoutParams.MATCH_PARENT,
+                        TableRow.LayoutParams.MATCH_PARENT,
+                        1.0f
+                ));
+                button.setText("ROW:"+row+" , COL:"+col);
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        gridButtonClicked(String.valueOf(button.getText()));
+                    }
+                });
+                tableRowButton.addView(button);
+
+            }
+        }
     }
 
-
-
-    //Te wszystkie metody ponizej trzeba utworzyc po dodaniu GestureDetector.OnGestureListener oraz GestureDetector.OnDoubleTapListener
-    //przy głownej klasie
-
-    @Override
-    public boolean onSingleTapConfirmed(MotionEvent motionEvent) {
-        return false;
-    }
-
-    @Override
-    public boolean onDoubleTap(MotionEvent motionEvent) {
-        return false;
-    }
-
-    @Override
-    public boolean onDoubleTapEvent(MotionEvent motionEvent) {
-        return false;
-    }
-
-    @Override
-    public boolean onDown(MotionEvent motionEvent) {
-        Toast.makeText(MainActivity.this,"Downowanie ",Toast.LENGTH_SHORT).show();
-        return false;
-    }
-
-    @Override
-    public void onShowPress(MotionEvent motionEvent) {
-
-    }
-
-    @Override
-    public boolean onSingleTapUp(MotionEvent motionEvent) {
-        return false;
-    }
-
-    @Override
-    public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
-        Toast.makeText(MainActivity.this,"Scrollowanie ",Toast.LENGTH_SHORT).show();
-        return false;
-    }
-
-    @Override
-    public void onLongPress(MotionEvent motionEvent) {
-
-    }
-
-    @Override
-    public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
-        Toast.makeText(MainActivity.this,"Flingowanie ",Toast.LENGTH_SHORT).show();
-        return false;
+    private void gridButtonClicked(String id) {
+        Toast.makeText(this,"Button clicked id:"+id,Toast.LENGTH_SHORT).show();
     }
 }
