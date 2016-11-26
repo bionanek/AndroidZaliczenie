@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -31,8 +32,15 @@ public class MainActivity extends AppCompatActivity
 
         populateButton();
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        Animation open,close,rotate,rotateBack;
+
+        FloatingActionButton fab_one = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab_two = (FloatingActionButton) findViewById(R.id.fab2);
+        FloatingActionButton fab_three = (FloatingActionButton) findViewById(R.id.fab3);
+
+       // open = AnimationUtils.loadAnimation(getApplicationContext(),R.animator.main_anim);
+
+        fab_one.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
