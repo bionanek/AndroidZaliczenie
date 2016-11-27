@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity
     //elo co tam u ciebie kuba?
     private FloatingActionButton fab_one,fab_two,fab_three;
     private Animation open,close,rotate,rotateBack;
-    private static final int NUM_ROWS = 2;
+    private static final int NUM_ROWS = 10;
     private boolean isOpen = false;
 
     @Override
