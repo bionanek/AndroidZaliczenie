@@ -4,7 +4,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -13,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -23,7 +23,10 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
     //elo co tam u ciebie kuba?
-    private static final int NUM_ROWS = 8;
+    private FloatingActionButton fab_one,fab_two,fab_three;
+    private Animation open,close,rotate,rotateBack;
+    private static final int NUM_ROWS = 2;
+    private boolean isOpen = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,19 +35,40 @@ public class MainActivity extends AppCompatActivity
 
         populateButton();
 
-        Animation open,close,rotate,rotateBack;
+        fab_one = (FloatingActionButton) findViewById(R.id.fab);
+        fab_two = (FloatingActionButton) findViewById(R.id.fab2);
+        fab_three = (FloatingActionButton) findViewById(R.id.fab3);
 
-        FloatingActionButton fab_one = (FloatingActionButton) findViewById(R.id.fab);
-        FloatingActionButton fab_two = (FloatingActionButton) findViewById(R.id.fab2);
-        FloatingActionButton fab_three = (FloatingActionButton) findViewById(R.id.fab3);
+        open = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.open);
+        close = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.close);
+        rotate = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate);
+        rotateBack = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_back);
 
-       // open = AnimationUtils.loadAnimation(getApplicationContext(),R.animator.main_anim);
 
         fab_one.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+
+                if (isOpen) {
+
+                    fab_two.startAnimation(close);
+                    fab_three.startAnimation(close);
+                    fab_one.startAnimation(rotateBack);
+
+                    fab_two.setClickable(false);
+                    fab_three.setClickable(false);
+                    isOpen = false;
+                }
+                else
+                {
+                    fab_two.startAnimation(open);
+                    fab_three.startAnimation(open);
+                    fab_one.startAnimation(rotate);
+
+                    fab_two.setClickable(true);
+                    fab_three.setClickable(true);
+                    isOpen = true;
+                }
             }
         });
 
