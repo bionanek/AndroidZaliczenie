@@ -3,13 +3,16 @@ package com.example.artur.timeger.helper;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.example.artur.timeger.model.Quest;
 import com.example.artur.timeger.model.Tag;
+import com.example.artur.timeger.model.User;
 
+import java.sql.SQLData;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -38,7 +41,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
     private static final String TABLE_QUEST_TAG = "quest_tag";
 
     // Common column names
-    private static final String KEY_ID = "id";
+    private static final String KEY_ID = "_id";
     private static final String KEY_CREATED_AT = "created_at";
 
     // QUEST Table - column names
@@ -55,6 +58,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
     private static final String KEY_PASSWORD = "password";
     private static final String KEY_NAME = "name";
     private static final String KEY_SURNAME = "surname";
+    private static final String KEY_EMAIL = "email";
 
     // TAGS Table - column names
     private static final String KEY_TAG_NAME = "tag_name";
@@ -84,7 +88,8 @@ public class DatabaseHelper extends SQLiteOpenHelper
                                     KEY_LOGIN + " TEXT,"                            +
                                     KEY_PASSWORD + " TEXT,"                         +
                                     KEY_NAME + " TEXT,"                             +
-                                    KEY_SURNAME + " TEXT"                           +
+                                    KEY_SURNAME + " TEXT,"                          +
+                                    KEY_EMAIL + " TEXT,"                            +
                                     KEY_CREATED_AT + "DATETIME);";
 
     //Tag table create
@@ -186,6 +191,8 @@ public class DatabaseHelper extends SQLiteOpenHelper
         quest.setComments((c.getString(c.getColumnIndex(KEY_COMMENTS))));
         quest.setCreatedAt((c.getString(c.getColumnIndex(KEY_CREATED_AT))));
 
+        c.close();
+
         return quest;
     }
 
@@ -212,8 +219,10 @@ public class DatabaseHelper extends SQLiteOpenHelper
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
+        quests = this.getListOfQuests(cursor);
+        cursor.close();
 
-        return this.getListOfQuests(cursor);
+        return quests;
     }
 
     public List<Quest> getAllQuestsByTag(String tagName)
@@ -228,8 +237,10 @@ public class DatabaseHelper extends SQLiteOpenHelper
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
+        List<Quest> quests = this.getListOfQuests(cursor);
+        cursor.close();
 
-        return this.getListOfQuests(cursor);
+        return quests;
     }
 
     public int updateQuest(Quest quest)
@@ -261,12 +272,134 @@ public class DatabaseHelper extends SQLiteOpenHelper
         //insert row and return id;
         return db.insert(TABLE_TAG, null, values);
     }
-    
+
+    public List<Tag> getAllTags()
+    {
+        List<Tag> tags = new ArrayList<>();
+        String selectQuery = "SELECT * FROM " + TABLE_TAG;
+
+        Log.e(LOG, selectQuery);
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if(c.moveToFirst())
+        {
+            do
+            {
+                Tag t = new Tag();
+                t.setId(c.getInt(c.getColumnIndex(KEY_ID)));
+                t.setTagName(c.getString(c.getColumnIndex(KEY_TAG_NAME)));
+
+                tags.add(t);
+            }while(c.moveToNext());
+        }
+        c.close();
+        return tags;
+    }
+
+    public int updateTag(Tag tag)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_TAG_NAME, tag.getTagName());
+
+        return db.update(TABLE_TAG, values, KEY_ID + " = ?",
+                new String[] { String.valueOf(tag.getId()) });
+    }
+
+    public void deleteTag(Tag tag, boolean deleteAllTagQuests)
+    {
+        SQLiteDatabase db = getWritableDatabase();
+
+        //check if quests udner this tag should be deleted too
+        if(deleteAllTagQuests)
+        {
+            List<Quest> allTagQuests = getAllQuestsByTag(tag.getTagName());
+
+            // delete all quests
+            for(Quest quest : allTagQuests)
+            {
+                deleteQuest(quest.getId());
+            }
+        }
+        //delete the tag
+        db.delete(TABLE_TAG, KEY_ID + " = ?",
+                new String[] { String.valueOf(tag.getId()) });
+    }
+
+    // QUEST_TAG TABLE METHODS
+    public long createQuestTag(int questId, int tagId)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_QUEST_ID, questId);
+        values.put(KEY_TAG_ID, tagId);
+        values.put(KEY_CREATED_AT, getDateTime());
+
+        long id = db.insert(TABLE_QUEST_TAG, null, values);
+
+        return id;
+    }
+
+    // following method will remove the tag assigned to a quest
+    public void deleteToDoTag(long id)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        db.delete(TABLE_QUEST, KEY_ID + " = ?",
+                new String[] { String.valueOf(id) });
+    }
+
+    public int updateQuestTag(long questId, long tagId)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_TAG_ID, tagId);
+
+        return db.update(TABLE_QUEST, values, KEY_ID + " = ?",
+                new String[] { String.valueOf(questId) });
+    }
+
+    //USER TABLE METHODS
+    public long createUser(User user)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_LOGIN, user.getLogin());
+        values.put(KEY_PASSWORD, user.getPass());
+        values.put(KEY_NAME, user.getName());
+        values.put(KEY_SURNAME, user.getSurname());
+        values.put(KEY_EMAIL, user.getEmail());
+
+        return db.insert(TABLE_USER, null, values);
+    }
+
+    public void deleteUser(User user)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_USER, KEY_ID + " = ?",
+                new String[] { String.valueOf(user.getId()) });
+    }
+
+
+    // CLOSING DATABASE CONNECTION
+    public void closeDB()
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+        if(db != null && db.isOpen())
+            db.close();
+    }
+
     // helpers classes
     private String getDateTime()
     {
-        SimpleDateFormat dateFormat = new SimpleDateFormat(
-                "yyy-MM-dd HH:mm:ss", Locale.getDefault());
+        SimpleDateFormat dateFormat =
+                new SimpleDateFormat("yyy-MM-dd HH:mm:ss", Locale.getDefault());
         Date date = new Date();
 
         return dateFormat.format(date);
@@ -295,6 +428,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
 
             }while(c.moveToNext());
         }
+        c.close();
         return quests;
     }
 

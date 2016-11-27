@@ -10,9 +10,20 @@ public class User
     private String _pass;
     private String _name;
     private String _surname;
+    private String _email;
     private String _createdAt;
 
     private int _id;
+
+    public String getEmail()
+    {
+        return this._email;
+    }
+
+    public void setEmail(String email)
+    {
+        this._email = email;
+    }
 
     public String getCreatedAt()
     {
