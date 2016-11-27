@@ -1,9 +1,9 @@
 package com.example.artur.timeger;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -11,33 +11,64 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
-
-<<<<<<< HEAD
-    //elo kruwa troche mnei tu nie bylodsadsads
-    // Robimy git program
-    // drugi git
-    // trzeci
+        implements NavigationView.OnNavigationItemSelectedListener{
 
     //elo co tam u ciebie kuba?
+    private FloatingActionButton fab_one,fab_two,fab_three;
+    private Animation open,close,rotate,rotateBack;
+    private static final int NUM_ROWS = 2;
+    private boolean isOpen = false;
 
-=======
->>>>>>> b2be1173f9ba042b24f0bdd604fd743d63b3c212
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        populateButton();
+
+        fab_one = (FloatingActionButton) findViewById(R.id.fab);
+        fab_two = (FloatingActionButton) findViewById(R.id.fab2);
+        fab_three = (FloatingActionButton) findViewById(R.id.fab3);
+
+        open = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.open);
+        close = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.close);
+        rotate = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate);
+        rotateBack = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_back);
+
+
+        fab_one.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+
+                if (isOpen) {
+
+                    fab_two.startAnimation(close);
+                    fab_three.startAnimation(close);
+                    fab_one.startAnimation(rotateBack);
+
+                    fab_two.setClickable(false);
+                    fab_three.setClickable(false);
+                    isOpen = false;
+                }
+                else
+                {
+                    fab_two.startAnimation(open);
+                    fab_three.startAnimation(open);
+                    fab_one.startAnimation(rotate);
+
+                    fab_two.setClickable(true);
+                    fab_three.setClickable(true);
+                    isOpen = true;
+                }
             }
         });
 
@@ -89,19 +120,139 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> c16d41062e9c1345a14298e8e2fc8e294e356a3d
         if (id == R.id.myProfile) {
             // Handle the camera action
         } else if (id == R.id.myFriends) {
 
+        } else if (id == R.id.addDatabaseSQLite) {
+            Toast.makeText(MainActivity.this,"Utworzono baze danych",Toast.LENGTH_SHORT).show();
+
+        } else if (id == R.id.checkIfDatabaseExist) {
+            Toast.makeText(MainActivity.this,"Baza danych juz istnieje",Toast.LENGTH_SHORT).show();
         } else if (id == R.id.shareAppWithSomeone) {
 
         } else if (id == R.id.quitApplication) {
             System.exit(0);
         }
 
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+
+    // KAFELKI MADE BY WUJEK SAJMON
+
+    private void populateButton() {
+
+        TableLayout table = (TableLayout) findViewById(R.id.TableFourButtons);
+        table.setBackgroundColor(Color.RED);
+
+
+        //tutaj robi do chuja pana wiersze
+        for (int row = 0; row < NUM_ROWS; row++) {
+            TableRow tableRow = new TableRow(this);
+            tableRow.setLayoutParams(new TableLayout.LayoutParams(
+                    TableLayout.LayoutParams.MATCH_PARENT,
+                    TableLayout.LayoutParams.MATCH_PARENT,
+                    1.0f
+            ));
+
+            TableLayout.LayoutParams lp =
+                    new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,
+                            TableLayout.LayoutParams.WRAP_CONTENT);
+            lp.setMargins(5, 5, 5, 5);
+            tableRow.setLayoutParams(lp);
+            table.addView(tableRow, lp);
+
+            //tutaj do chuja pana robi kolumny
+            for (int col = 0; col < 2; col++) {
+                TableLayout tab = new TableLayout(this);
+
+                //tutaj ustawia rozmar komorki?!
+                TableRow.LayoutParams elo = new TableRow.LayoutParams(
+                        TableRow.LayoutParams.MATCH_PARENT,
+                        TableRow.LayoutParams.MATCH_PARENT,
+                        1.0f
+                );
+
+                tab.setBackgroundColor(Color.YELLOW);
+                elo.setMargins(5,0,5,0);
+                tab.setLayoutParams(elo);
+                tableRow.addView(tab);
+
+                //to jest cos od pierwszego labela
+                TableRow tableRowDate = new TableRow(this);
+                tableRowDate.setLayoutParams(new TableRow.LayoutParams(
+                        TableRow.LayoutParams.MATCH_PARENT,
+                        TableRow.LayoutParams.MATCH_PARENT,
+                        1.0f
+                ));
+                tab.addView(tableRowDate, lp);
+
+
+                TextView data = new TextView(this);
+                data.setText("WYRUCHAC JAKUBA");
+                data.setLayoutParams(new TableRow.LayoutParams(
+                        TableRow.LayoutParams.MATCH_PARENT,
+                        TableRow.LayoutParams.MATCH_PARENT,
+                        1.0f
+                ));
+                tableRowDate.addView(data);
+
+
+                TableRow tableRowdata2 = new TableRow(this);
+                tableRowdata2.setLayoutParams(new TableRow.LayoutParams(
+                        TableRow.LayoutParams.MATCH_PARENT,
+                        TableRow.LayoutParams.MATCH_PARENT,
+                        1.0f
+                ));
+                tab.addView(tableRowdata2, lp);
+
+
+                TextView data2 = new TextView(this);
+                data2.setText("26/11/2016");
+                data2.setLayoutParams(new TableRow.LayoutParams(
+                        TableRow.LayoutParams.MATCH_PARENT,
+                        TableRow.LayoutParams.MATCH_PARENT,
+                        1.0f
+                ));
+                tableRowdata2.addView(data2);
+
+
+                TableRow tableRowButton = new TableRow(this);
+                tableRowButton.setLayoutParams(new TableRow.LayoutParams(
+                        TableRow.LayoutParams.MATCH_PARENT,
+                        TableRow.LayoutParams.MATCH_PARENT,
+                        1.0f
+                ));
+                tab.addView(tableRowButton, lp);
+
+
+                final Button button = new Button(this);
+                button.setLayoutParams(new TableRow.LayoutParams(
+                        TableRow.LayoutParams.MATCH_PARENT,
+                        TableRow.LayoutParams.MATCH_PARENT,
+                        1.0f
+                ));
+                button.setText("ROW:"+row+" , COL:"+col);
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        gridButtonClicked(String.valueOf(button.getText()));
+                    }
+                });
+                tableRowButton.addView(button);
+
+            }
+        }
+    }
+
+    private void gridButtonClicked(String id) {
+        Toast.makeText(this,"Button clicked id:"+id,Toast.LENGTH_SHORT).show();
     }
 }
