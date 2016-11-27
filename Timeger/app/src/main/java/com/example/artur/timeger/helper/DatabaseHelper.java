@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.example.artur.timeger.model.Quest;
+import com.example.artur.timeger.model.Tag;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -146,15 +147,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
     {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        ContentValues values = new ContentValues();
-        values.put(KEY_DESCRIPTION, quest.getDescription());
-        values.put(KEY_STATUS, quest.getStatus());
-        values.put(KEY_QUEST_DATE, quest.getQuestDate());
-        values.put(KEY_ALARM_DATE, quest.getAlarmDate());
-        values.put(KEY_QUEST_PLACE, quest.getPlace());
-        values.put(KEY_TYPE, quest.getType());
-        values.put(KEY_COMMENTS, quest.getComments());
-        values.put(KEY_CREATED_AT, getDateTime());
+        ContentValues values = this.setQuestObjectValues(quest);
 
         // insert row
         long quest_id = db.insert(TABLE_QUEST, null, values);
@@ -239,8 +232,36 @@ public class DatabaseHelper extends SQLiteOpenHelper
         return this.getListOfQuests(cursor);
     }
 
+    public int updateQuest(Quest quest)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = this.setQuestObjectValues(quest);
 
+        return db.update(TABLE_QUEST, values, KEY_ID + " = ?",
+                new String[] {String.valueOf(quest.getId())} );
 
+    }
+
+    public void deleteQuest(int questId)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_QUEST, KEY_ID + " = ?",
+                new String[] {String.valueOf(questId)} );
+    }
+
+    // TAG METHODS
+    public long createTag(Tag tag)
+    {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(KEY_TAG_NAME, tag.getTagName());
+        values.put(KEY_CREATED_AT, getDateTime());
+
+        //insert row and return id;
+        return db.insert(TABLE_TAG, null, values);
+    }
+    
     // helpers classes
     private String getDateTime()
     {
@@ -275,5 +296,20 @@ public class DatabaseHelper extends SQLiteOpenHelper
             }while(c.moveToNext());
         }
         return quests;
+    }
+
+    private ContentValues setQuestObjectValues(Quest quest)
+    {
+        ContentValues values = new ContentValues();
+        values.put(KEY_DESCRIPTION, quest.getDescription());
+        values.put(KEY_STATUS, quest.getStatus());
+        values.put(KEY_QUEST_DATE, quest.getQuestDate());
+        values.put(KEY_ALARM_DATE, quest.getAlarmDate());
+        values.put(KEY_QUEST_PLACE, quest.getPlace());
+        values.put(KEY_TYPE, quest.getType());
+        values.put(KEY_COMMENTS, quest.getComments());
+        values.put(KEY_CREATED_AT, getDateTime());
+
+        return values;
     }
 }
