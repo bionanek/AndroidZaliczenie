@@ -17,6 +17,8 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -174,105 +176,128 @@ public class MainActivity extends AppCompatActivity
 
             //tutaj do chuja pana robi kolumny
             for (int col = 0; col < 2; col++) {
-                TableLayout tab = new TableLayout(this);
-
-                //tutaj ustawia rozmar komorki?!
-                TableRow.LayoutParams elo = new TableRow.LayoutParams(
+                TableLayout columnInMainTable = new TableLayout(this);
+                TableRow.LayoutParams paramsColumInMainTable = new TableRow.LayoutParams(
                         TableRow.LayoutParams.MATCH_PARENT,
                         TableRow.LayoutParams.MATCH_PARENT,
                         1.0f
                 );
+                columnInMainTable.setBackgroundColor(Color.rgb(53,136,244));
+                paramsColumInMainTable .setMargins(5,0,5,0);
+                columnInMainTable.setLayoutParams(paramsColumInMainTable );
+                tableRow.addView(columnInMainTable);
 
-                tab.setBackgroundColor(Color.rgb(53,136,244));
-                elo.setMargins(5,0,5,0);
-                tab.setLayoutParams(elo);
-                tableRow.addView(tab);
+
+
+
+
 
                 //to jest cos od pierwszego labela
-                TableRow tableRowTitle = new TableRow(this);
-                tableRowTitle.setLayoutParams(new TableRow.LayoutParams(
+                TableRow firstRowInKAFEL = new TableRow(this);
+                firstRowInKAFEL.setLayoutParams(new TableRow.LayoutParams(
                         TableRow.LayoutParams.MATCH_PARENT,
                         TableRow.LayoutParams.MATCH_PARENT,
                         1.0f
                 ));
-                tab.addView(tableRowTitle, lp);
+                columnInMainTable.addView(firstRowInKAFEL, lp);
 
-
-
-
-                TextView data = new TextView(this);
-                String title = new String("TYTUL");
-                data.setText(title);
-                data.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
-                data.setTypeface(null, Typeface.BOLD_ITALIC);
-                data.setGravity(Gravity.CENTER);
-                data.setLayoutParams(new TableRow.LayoutParams(
+                TableLayout firstColumnInFirstRowKAFEL = new TableLayout(this);
+                TableRow.LayoutParams paramsColumnInFirstRowKAFEL = new TableRow.LayoutParams(
                         TableRow.LayoutParams.MATCH_PARENT,
                         TableRow.LayoutParams.MATCH_PARENT,
                         1.0f
-                ));
-                tableRowTitle.addView(data);
-
-
-
-
-
-                TableRow tableRowdata2 = new TableRow(this);
-                tableRowdata2.setLayoutParams(new TableRow.LayoutParams(
-                        TableRow.LayoutParams.MATCH_PARENT,
-                        TableRow.LayoutParams.MATCH_PARENT,
-                        1.0f
-                ));
-                tab.addView(tableRowdata2, lp);
-
-
-
-
-
+                );
+                firstColumnInFirstRowKAFEL.setLayoutParams(paramsColumnInFirstRowKAFEL);
+                firstRowInKAFEL.addView(firstColumnInFirstRowKAFEL);
 
                 //TODO if(yyyy/MM.dd)today.date) -> dateformat= HH:mm:ss/else yyyy/MM/ddd
                 DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd"); //2016/11/16 12:08
                 Date date = new Date();
                 System.out.println(dateFormat.format(date));
 
-                TextView data2 = new TextView(this);
-                data2.setTypeface(null, Typeface.BOLD_ITALIC);
-                data2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
-                data2.setText(dateFormat.format(date));
-                data2.setLayoutParams(new TableRow.LayoutParams(
+                TextView txtdateOfExecution = new TextView(this);
+                txtdateOfExecution.setTypeface(null, Typeface.BOLD_ITALIC);
+                txtdateOfExecution.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
+                txtdateOfExecution.setText(dateFormat.format(date));
+                txtdateOfExecution.setLayoutParams(new TableLayout.LayoutParams(
+                        TableLayout.LayoutParams.MATCH_PARENT,
+                        TableLayout.LayoutParams.MATCH_PARENT,
+                        1.0f
+                ));
+                txtdateOfExecution.setGravity(Gravity.CENTER);
+
+                firstColumnInFirstRowKAFEL.addView(txtdateOfExecution);
+
+                TableLayout secondColumnInFirstRowKAFEL = new TableLayout(this);
+                secondColumnInFirstRowKAFEL.setLayoutParams(paramsColumnInFirstRowKAFEL);
+                firstRowInKAFEL.addView(secondColumnInFirstRowKAFEL);
+
+                ImageView btnBell = new ImageView(this);
+                btnBell.setImageResource(R.drawable.bell_icon);
+                btnBell.setColorFilter(Color.YELLOW);
+                btnBell.setScaleX(1.0f);
+                btnBell.setScaleY(1.0f);
+                btnBell.setLayoutParams(new TableLayout.LayoutParams(
+                        TableLayout.LayoutParams.MATCH_PARENT,
+                        TableLayout.LayoutParams.MATCH_PARENT,
+                        1.0f
+                ));
+
+                secondColumnInFirstRowKAFEL.addView(btnBell);
+
+
+
+
+
+                TableRow secondRowInKAFEL = new TableRow(this);
+                secondRowInKAFEL.setLayoutParams(new TableRow.LayoutParams(
                         TableRow.LayoutParams.MATCH_PARENT,
                         TableRow.LayoutParams.MATCH_PARENT,
                         1.0f
                 ));
-                data2.setGravity(Gravity.CENTER);
-                tableRowdata2.addView(data2);
+                columnInMainTable.addView(secondRowInKAFEL, lp);
 
-
-                TableRow tableRowButton = new TableRow(this);
-                tableRowButton.setLayoutParams(new TableRow.LayoutParams(
+                TextView txtTitleOfKAFEL = new TextView(this);
+                String title = new String();
+                title="Title";
+                txtTitleOfKAFEL.setText(title);
+                txtTitleOfKAFEL.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
+                txtTitleOfKAFEL.setTypeface(null, Typeface.BOLD_ITALIC);
+                txtTitleOfKAFEL.setGravity(Gravity.CENTER);
+                txtTitleOfKAFEL.setLayoutParams(new TableRow.LayoutParams(
                         TableRow.LayoutParams.MATCH_PARENT,
                         TableRow.LayoutParams.MATCH_PARENT,
                         1.0f
                 ));
-                tab.addView(tableRowButton, lp);
 
 
-                final Button button = new Button(this);
-                button.setLayoutParams(new TableRow.LayoutParams(
+                secondRowInKAFEL.addView(txtTitleOfKAFEL);
+
+
+                TableRow thirdRowInKAFEL = new TableRow(this);
+                thirdRowInKAFEL.setLayoutParams(new TableRow.LayoutParams(
                         TableRow.LayoutParams.MATCH_PARENT,
                         TableRow.LayoutParams.MATCH_PARENT,
                         1.0f
                 ));
-                button.setText("Wykonaj!");
-                button.setTypeface(null, Typeface.BOLD);
-                button.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
-                button.setOnClickListener(new View.OnClickListener() {
+                columnInMainTable.addView(thirdRowInKAFEL, lp);
+
+                final Button btnExecute = new Button(this);
+                btnExecute .setLayoutParams(new TableRow.LayoutParams(
+                        TableRow.LayoutParams.MATCH_PARENT,
+                        TableRow.LayoutParams.MATCH_PARENT,
+                        1.0f
+                ));
+                btnExecute .setText("Wykonaj!");
+                btnExecute .setTypeface(null, Typeface.BOLD);
+                btnExecute .setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
+                btnExecute .setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        gridButtonClicked(String.valueOf(button.getText()));
+                        gridButtonClicked(String.valueOf(btnExecute .getText()));
                     }
                 });
-                tableRowButton.addView(button);
+                thirdRowInKAFEL.addView(btnExecute );
 
             }
         }
