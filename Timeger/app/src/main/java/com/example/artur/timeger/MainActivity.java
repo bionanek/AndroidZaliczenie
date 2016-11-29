@@ -1,6 +1,7 @@
 package com.example.artur.timeger;
 
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -8,6 +9,8 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +21,10 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
@@ -146,7 +153,7 @@ public class MainActivity extends AppCompatActivity
     private void populateButton() {
 
         TableLayout table = (TableLayout) findViewById(R.id.TableFourButtons);
-        table.setBackgroundColor(Color.RED);
+        table.setBackgroundColor(Color.WHITE);
 
 
         //tutaj robi do chuja pana wiersze
@@ -176,29 +183,38 @@ public class MainActivity extends AppCompatActivity
                         1.0f
                 );
 
-                tab.setBackgroundColor(Color.YELLOW);
+                tab.setBackgroundColor(Color.rgb(53,136,244));
                 elo.setMargins(5,0,5,0);
                 tab.setLayoutParams(elo);
                 tableRow.addView(tab);
 
                 //to jest cos od pierwszego labela
-                TableRow tableRowDate = new TableRow(this);
-                tableRowDate.setLayoutParams(new TableRow.LayoutParams(
+                TableRow tableRowTitle = new TableRow(this);
+                tableRowTitle.setLayoutParams(new TableRow.LayoutParams(
                         TableRow.LayoutParams.MATCH_PARENT,
                         TableRow.LayoutParams.MATCH_PARENT,
                         1.0f
                 ));
-                tab.addView(tableRowDate, lp);
+                tab.addView(tableRowTitle, lp);
+
+
 
 
                 TextView data = new TextView(this);
-                data.setText("WYRUCHAC JAKUBA");
+                String title = new String("TYTUL");
+                data.setText(title);
+                data.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
+                data.setTypeface(null, Typeface.BOLD_ITALIC);
+                data.setGravity(Gravity.CENTER);
                 data.setLayoutParams(new TableRow.LayoutParams(
                         TableRow.LayoutParams.MATCH_PARENT,
                         TableRow.LayoutParams.MATCH_PARENT,
                         1.0f
                 ));
-                tableRowDate.addView(data);
+                tableRowTitle.addView(data);
+
+
+
 
 
                 TableRow tableRowdata2 = new TableRow(this);
@@ -210,13 +226,25 @@ public class MainActivity extends AppCompatActivity
                 tab.addView(tableRowdata2, lp);
 
 
+
+
+
+
+                //TODO if(yyyy/MM.dd)today.date) -> dateformat= HH:mm:ss/else yyyy/MM/ddd
+                DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd"); //2016/11/16 12:08
+                Date date = new Date();
+                System.out.println(dateFormat.format(date));
+
                 TextView data2 = new TextView(this);
-                data2.setText("26/11/2016");
+                data2.setTypeface(null, Typeface.BOLD_ITALIC);
+                data2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
+                data2.setText(dateFormat.format(date));
                 data2.setLayoutParams(new TableRow.LayoutParams(
                         TableRow.LayoutParams.MATCH_PARENT,
                         TableRow.LayoutParams.MATCH_PARENT,
                         1.0f
                 ));
+                data2.setGravity(Gravity.CENTER);
                 tableRowdata2.addView(data2);
 
 
@@ -235,7 +263,9 @@ public class MainActivity extends AppCompatActivity
                         TableRow.LayoutParams.MATCH_PARENT,
                         1.0f
                 ));
-                button.setText("ROW:"+row+" , COL:"+col);
+                button.setText("Wykonaj!");
+                button.setTypeface(null, Typeface.BOLD);
+                button.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
