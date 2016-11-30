@@ -45,6 +45,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
     // QUEST Table - column names
     private static final String KEY_DESCRIPTION = "description";
     private static final String KEY_STATUS = "status";
+    private static final String KEY_PRIORITY = "priority";
     private static final String KEY_QUEST_DATE = "quest_date";
     private static final String KEY_ALARM_DATE = "alarm_date";
     private static final String KEY_QUEST_PLACE = "quest_place";
@@ -72,6 +73,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
                                     KEY_ID + " INTEGER primary key autoincrement,"  +
                                     KEY_DESCRIPTION + " TEXT not null,"             +
                                     KEY_STATUS + " INTEGER,"                        +
+                                    KEY_PRIORITY + " TEXT,"                         +
                                     KEY_QUEST_DATE + " DATETIME,"                   +
                                     KEY_ALARM_DATE + " DATETIME,"                   +
                                     KEY_QUEST_PLACE + " TEXT,"                      +
@@ -164,7 +166,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
         return quest_id;
     }
 
-    public Quest getQuest(long quest_id)
+    public Quest getQuestById(long quest_id)
     {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -366,12 +368,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
     {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        ContentValues values = new ContentValues();
-        values.put(KEY_LOGIN, user.getLogin());
-        values.put(KEY_PASSWORD, user.getPass());
-        values.put(KEY_NAME, user.getName());
-        values.put(KEY_SURNAME, user.getSurname());
-        values.put(KEY_EMAIL, user.getEmail());
+        ContentValues values = this.setUserObjectValues(user);
 
         return db.insert(TABLE_USER, null, values);
     }
@@ -381,6 +378,44 @@ public class DatabaseHelper extends SQLiteOpenHelper
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_USER, KEY_ID + " = ?",
                 new String[] { String.valueOf(user.getId()) });
+    }
+
+    public long updateUser(User user)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = this.setUserObjectValues(user);
+
+        return db.update(TABLE_TAG, values, KEY_ID + " = ?",
+                new String[] { String.valueOf(user.getId()) });
+    }
+
+    public User getUserById(long userID)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String selectQuery = "SELECT * FROM " + TABLE_USER +
+                " WHERE " + KEY_ID + " = " + userID;
+
+        Log.e(LOG, selectQuery);
+
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if(c != null)
+            c.moveToFirst();
+
+        User user = new User();
+
+        user.setId(c.getInt(c.getColumnIndex(KEY_ID)));
+        user.setLogin(c.getString(c.getColumnIndex(KEY_LOGIN)));
+        user.setPass(c.getString(c.getColumnIndex(KEY_PASSWORD)));
+        user.setName(c.getString(c.getColumnIndex(KEY_NAME)));
+        user.setSurname(c.getString(c.getColumnIndex(KEY_SURNAME)));
+        user.setEmail(c.getString(c.getColumnIndex(KEY_EMAIL)));
+
+        c.close();
+
+        return user;
     }
 
 
@@ -393,6 +428,17 @@ public class DatabaseHelper extends SQLiteOpenHelper
     }
 
     // helpers classes
+    private ContentValues setUserObjectValues(User user)
+    {
+        ContentValues values = new ContentValues();
+        values.put(KEY_LOGIN, user.getLogin());
+        values.put(KEY_PASSWORD, user.getPass());
+        values.put(KEY_NAME, user.getName());
+        values.put(KEY_SURNAME, user.getSurname());
+        values.put(KEY_EMAIL, user.getEmail());
+        return values;
+    }
+
     private String getDateTime()
     {
         SimpleDateFormat dateFormat =

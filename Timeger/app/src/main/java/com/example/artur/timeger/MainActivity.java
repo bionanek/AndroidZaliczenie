@@ -13,19 +13,24 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
-import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener{
+import com.example.artur.timeger.interfaces.IButtonClickedListener;
+import com.example.artur.timeger.model.Quest;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity implements IButtonClickedListener,
+        NavigationView.OnNavigationItemSelectedListener
+{
 
     //elo co tam u ciebie kuba?
     private FloatingActionButton fab_one,fab_two,fab_three;
     private Animation open,close,rotate,rotateBack;
-    private static final int NUM_ROWS = 2;
+    private static final int NUM_ROWS = 10;
     private boolean isOpen = false;
 
     @Override
@@ -146,17 +151,37 @@ public class MainActivity extends AppCompatActivity
     private void populateButton() {
 
         TableLayout table = (TableLayout) findViewById(R.id.TableFourButtons);
-        table.setBackgroundColor(Color.RED);
+        table.setBackgroundColor(Color.WHITE);
 
+        // creating a list of Quest objects to add them to Quest boxes
+        List<Quest> quests = new ArrayList<>();
+        int day = 1;
+        for(int i = 0; i < 10; i++)
+        {
+            Quest quest = new Quest();
+            quest.setDescription("TEST" + i);
+            quest.setQuestDate("2016/11/" + day);
+            if(i%3 == 0)
+            {
+                quest.setStatus("Done");
+                quest.setAlarm("test dzwonka");
+            }
+            quests.add(quest);
+
+            day++;
+        }
+        int counter = 0;
 
         //tutaj robi do chuja pana wiersze
-        for (int row = 0; row < NUM_ROWS; row++) {
+        for (int row = 0; row < quests.size()/2; row++)
+        { //NUM_ROWS
             TableRow tableRow = new TableRow(this);
-            tableRow.setLayoutParams(new TableLayout.LayoutParams(
+            tableRow.setLayoutParams(new TableLayout.LayoutParams
+                    (
                     TableLayout.LayoutParams.MATCH_PARENT,
                     TableLayout.LayoutParams.MATCH_PARENT,
                     1.0f
-            ));
+                    ));
 
             TableLayout.LayoutParams lp =
                     new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,
@@ -166,89 +191,142 @@ public class MainActivity extends AppCompatActivity
             table.addView(tableRow, lp);
 
             //tutaj do chuja pana robi kolumny
-            for (int col = 0; col < 2; col++) {
-                TableLayout tab = new TableLayout(this);
+            for (int col = 0; col < 2; col++)
+            {
+                TableLayout columnInMainTable = new TableLayout(this);
+                TableRow.LayoutParams paramsColumInMainTable = new TableRow.LayoutParams
+                        (
+                        TableRow.LayoutParams.MATCH_PARENT,
+                        TableRow.LayoutParams.MATCH_PARENT,
+                        1.0f
+                        );
+                columnInMainTable.setBackgroundColor(Color.rgb(53,136,244));
+                paramsColumInMainTable .setMargins(5,0,5,0);
+                columnInMainTable.setLayoutParams(paramsColumInMainTable );
+                tableRow.addView(columnInMainTable);
 
-                //tutaj ustawia rozmar komorki?!
-                TableRow.LayoutParams elo = new TableRow.LayoutParams(
+                // creating a questBox object which is a type of TableLayout, so
+                // that it can be passed as a parameter to .addView below.
+                QuestBox questBox = new QuestBox(this, lp, quests.get(counter));
+                questBox.addListener(this);
+                columnInMainTable.addView(questBox, lp);
+                counter++;
+
+
+                // this huge commented code block is just for safety reasons.
+                // yep.
+                /*TableRow firstRowInKAFEL = new TableRow(this);
+                firstRowInKAFEL.setLayoutParams(new TableRow.LayoutParams(
+                        TableRow.LayoutParams.MATCH_PARENT,
+                        TableRow.LayoutParams.MATCH_PARENT,
+                        1.0f
+                ));
+                columnInMainTable.addView(firstRowInKAFEL, lp);
+
+                TableLayout firstColumnInFirstRowKAFEL = new TableLayout(this);
+                TableRow.LayoutParams paramsColumnInFirstRowKAFEL = new TableRow.LayoutParams(
                         TableRow.LayoutParams.MATCH_PARENT,
                         TableRow.LayoutParams.MATCH_PARENT,
                         1.0f
                 );
+                firstColumnInFirstRowKAFEL.setLayoutParams(paramsColumnInFirstRowKAFEL);
+                firstRowInKAFEL.addView(firstColumnInFirstRowKAFEL);
 
-                tab.setBackgroundColor(Color.YELLOW);
-                elo.setMargins(5,0,5,0);
-                tab.setLayoutParams(elo);
-                tableRow.addView(tab);
+                //TODO if(yyyy/MM.dd)today.date) -> dateformat= HH:mm:ss/else yyyy/MM/ddd
+                DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd"); //2016/11/16 12:08
+                Date date = new Date();
+                System.out.println(dateFormat.format(date));
 
-                //to jest cos od pierwszego labela
-                TableRow tableRowDate = new TableRow(this);
-                tableRowDate.setLayoutParams(new TableRow.LayoutParams(
+                TextView txtdateOfExecution = new TextView(this);
+                txtdateOfExecution.setTypeface(null, Typeface.BOLD_ITALIC);
+                txtdateOfExecution.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
+                txtdateOfExecution.setText(dateFormat.format(date));
+                txtdateOfExecution.setLayoutParams(new TableLayout.LayoutParams(
+                        TableLayout.LayoutParams.MATCH_PARENT,
+                        TableLayout.LayoutParams.MATCH_PARENT,
+                        1.0f
+                ));
+                txtdateOfExecution.setGravity(Gravity.CENTER);
+
+                firstColumnInFirstRowKAFEL.addView(txtdateOfExecution);
+
+                TableLayout secondColumnInFirstRowKAFEL = new TableLayout(this);
+                secondColumnInFirstRowKAFEL.setLayoutParams(paramsColumnInFirstRowKAFEL);
+                firstRowInKAFEL.addView(secondColumnInFirstRowKAFEL);
+
+                ImageView btnBell = new ImageView(this);
+                btnBell.setImageResource(R.drawable.bell_icon);
+                btnBell.setColorFilter(Color.YELLOW);
+                btnBell.setScaleX(1.0f);
+                btnBell.setScaleY(1.0f);
+                btnBell.setLayoutParams(new TableLayout.LayoutParams(
+                        TableLayout.LayoutParams.MATCH_PARENT,
+                        TableLayout.LayoutParams.MATCH_PARENT,
+                        1.0f
+                ));
+
+                secondColumnInFirstRowKAFEL.addView(btnBell);
+
+
+
+
+
+                TableRow secondRowInKAFEL = new TableRow(this);
+                secondRowInKAFEL.setLayoutParams(new TableRow.LayoutParams(
                         TableRow.LayoutParams.MATCH_PARENT,
                         TableRow.LayoutParams.MATCH_PARENT,
                         1.0f
                 ));
-                tab.addView(tableRowDate, lp);
+                columnInMainTable.addView(secondRowInKAFEL, lp);
 
-
-                TextView data = new TextView(this);
-                data.setText("WYRUCHAC JAKUBA");
-                data.setLayoutParams(new TableRow.LayoutParams(
+                TextView txtTitleOfKAFEL = new TextView(this);
+                String title = new String();
+                title="Title";
+                txtTitleOfKAFEL.setText(title);
+                txtTitleOfKAFEL.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
+                txtTitleOfKAFEL.setTypeface(null, Typeface.BOLD_ITALIC);
+                txtTitleOfKAFEL.setGravity(Gravity.CENTER);
+                txtTitleOfKAFEL.setLayoutParams(new TableRow.LayoutParams(
                         TableRow.LayoutParams.MATCH_PARENT,
                         TableRow.LayoutParams.MATCH_PARENT,
                         1.0f
                 ));
-                tableRowDate.addView(data);
 
 
-                TableRow tableRowdata2 = new TableRow(this);
-                tableRowdata2.setLayoutParams(new TableRow.LayoutParams(
+                secondRowInKAFEL.addView(txtTitleOfKAFEL);
+
+
+                TableRow thirdRowInKAFEL = new TableRow(this);
+                thirdRowInKAFEL.setLayoutParams(new TableRow.LayoutParams(
                         TableRow.LayoutParams.MATCH_PARENT,
                         TableRow.LayoutParams.MATCH_PARENT,
                         1.0f
                 ));
-                tab.addView(tableRowdata2, lp);
+                columnInMainTable.addView(thirdRowInKAFEL, lp);
 
-
-                TextView data2 = new TextView(this);
-                data2.setText("26/11/2016");
-                data2.setLayoutParams(new TableRow.LayoutParams(
+                final Button btnExecute = new Button(this);
+                btnExecute .setLayoutParams(new TableRow.LayoutParams(
                         TableRow.LayoutParams.MATCH_PARENT,
                         TableRow.LayoutParams.MATCH_PARENT,
                         1.0f
                 ));
-                tableRowdata2.addView(data2);
-
-
-                TableRow tableRowButton = new TableRow(this);
-                tableRowButton.setLayoutParams(new TableRow.LayoutParams(
-                        TableRow.LayoutParams.MATCH_PARENT,
-                        TableRow.LayoutParams.MATCH_PARENT,
-                        1.0f
-                ));
-                tab.addView(tableRowButton, lp);
-
-
-                final Button button = new Button(this);
-                button.setLayoutParams(new TableRow.LayoutParams(
-                        TableRow.LayoutParams.MATCH_PARENT,
-                        TableRow.LayoutParams.MATCH_PARENT,
-                        1.0f
-                ));
-                button.setText("ROW:"+row+" , COL:"+col);
-                button.setOnClickListener(new View.OnClickListener() {
+                btnExecute .setText("Wykonaj!");
+                btnExecute .setTypeface(null, Typeface.BOLD);
+                btnExecute .setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
+                btnExecute .setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        gridButtonClicked(String.valueOf(button.getText()));
+                        gridButtonClicked(String.valueOf(btnExecute .getText()));
                     }
                 });
-                tableRowButton.addView(button);
+                thirdRowInKAFEL.addView(btnExecute );*/
 
             }
         }
     }
 
-    private void gridButtonClicked(String id) {
-        Toast.makeText(this,"Button clicked id:"+id,Toast.LENGTH_SHORT).show();
+    public void onQuestBoxButtonClick(String value)
+    {
+        Toast.makeText(this,"Button clicked id:"+value,Toast.LENGTH_SHORT).show();
     }
 }
