@@ -1,7 +1,6 @@
 package com.example.artur.timeger;
 
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -9,31 +8,24 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.artur.timeger.interfaces.IButtonClickedListener;
 import com.example.artur.timeger.model.Quest;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity implements IButtonClickedListener,
+        NavigationView.OnNavigationItemSelectedListener
+{
 
     //elo co tam u ciebie kuba?
     private FloatingActionButton fab_one,fab_two,fab_three;
@@ -161,6 +153,7 @@ public class MainActivity extends AppCompatActivity
         TableLayout table = (TableLayout) findViewById(R.id.TableFourButtons);
         table.setBackgroundColor(Color.WHITE);
 
+        // creating a list of Quest objects to add them to Quest boxes
         List<Quest> quests = new ArrayList<>();
         int day = 1;
         for(int i = 0; i < 10; i++)
@@ -177,15 +170,18 @@ public class MainActivity extends AppCompatActivity
 
             day++;
         }
-        int licznik = 0;
+        int counter = 0;
+
         //tutaj robi do chuja pana wiersze
-        for (int row = 0; row < quests.size()/2; row++) { //NUM_ROWS
+        for (int row = 0; row < quests.size()/2; row++)
+        { //NUM_ROWS
             TableRow tableRow = new TableRow(this);
-            tableRow.setLayoutParams(new TableLayout.LayoutParams(
+            tableRow.setLayoutParams(new TableLayout.LayoutParams
+                    (
                     TableLayout.LayoutParams.MATCH_PARENT,
                     TableLayout.LayoutParams.MATCH_PARENT,
                     1.0f
-            ));
+                    ));
 
             TableLayout.LayoutParams lp =
                     new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,
@@ -195,25 +191,30 @@ public class MainActivity extends AppCompatActivity
             table.addView(tableRow, lp);
 
             //tutaj do chuja pana robi kolumny
-            for (int col = 0; col < 2; col++) {
+            for (int col = 0; col < 2; col++)
+            {
                 TableLayout columnInMainTable = new TableLayout(this);
-                TableRow.LayoutParams paramsColumInMainTable = new TableRow.LayoutParams(
+                TableRow.LayoutParams paramsColumInMainTable = new TableRow.LayoutParams
+                        (
                         TableRow.LayoutParams.MATCH_PARENT,
                         TableRow.LayoutParams.MATCH_PARENT,
                         1.0f
-                );
+                        );
                 columnInMainTable.setBackgroundColor(Color.rgb(53,136,244));
                 paramsColumInMainTable .setMargins(5,0,5,0);
                 columnInMainTable.setLayoutParams(paramsColumInMainTable );
                 tableRow.addView(columnInMainTable);
 
+                // creating a questBox object which is a type of TableLayout, so
+                // that it can be passed as a parameter to .addView below.
+                QuestBox questBox = new QuestBox(this, lp, quests.get(counter));
+                questBox.addListener(this);
+                columnInMainTable.addView(questBox, lp);
+                counter++;
 
-                //to jest cos od pierwszego labela
 
-
-                Kafel kafel = new Kafel(this, columnInMainTable, lp, quests.get(licznik));
-                licznik++;
-
+                // this huge commented code block is just for safety reasons.
+                // yep.
                 /*TableRow firstRowInKAFEL = new TableRow(this);
                 firstRowInKAFEL.setLayoutParams(new TableRow.LayoutParams(
                         TableRow.LayoutParams.MATCH_PARENT,
@@ -324,7 +325,8 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private void gridButtonClicked(String id) {
-        Toast.makeText(this,"Button clicked id:"+id,Toast.LENGTH_SHORT).show();
+    public void onQuestBoxButtonClick(String value)
+    {
+        Toast.makeText(this,"Button clicked id:"+value,Toast.LENGTH_SHORT).show();
     }
 }
