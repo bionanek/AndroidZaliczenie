@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Timeger</string>
+
     <string name="loginButtonName">Zaloguj się</string>
     <string name="registerButtonName">Zarejestruj się</string>
     <string name="loginInputHint">Podaj swój login bądz email</string>
@@ -29,14 +29,18 @@
                                     surname VARCHAR);</string>
     <string name="database_name">Timeger.db</string>
 
-    
+
     <!-- Kolory tla-->
     <color name="blockBackground">#ED7200</color>
     <color name="parentBackground">#200F00</color>
-
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-
     <string name="action_settings">Settings</string>
 
+    <!-- Startup Screen -->
+    <string name="app_name">Timeger</string>
+    <string name="desciptionPartOne">Zaoszczędź czas</string>
+    <string name="descriptionPartTwo">BE AWESOME!</string>
+    <string name="loginButton">Zaloguj się</string>
+    <string name="registerButton">Zarejestruj się</string>
 </resources>

@@ -24,35 +24,11 @@
         android:hint="@string/registerPasswordReceive"
         android:inputType="textPassword"
         />
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/registerButtonReceive"
         android:onClick="onRegisterButtonClick"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/registerButtonBackReceive"
-        android:onClick="onBackButtonClick"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Stworz"
-        android:onClick="onCreateButtonClick"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Sprawdz"
-        android:onClick="onCheckButtonClick"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="usun"
-        android:onClick="onDeleteButtonClick"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Pobierz"
-        android:onClick="onDownloadClick"/>
 
 </LinearLayout>

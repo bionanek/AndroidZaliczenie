@@ -3,7 +3,6 @@ package com.example.artur.timeger.helper;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -12,7 +11,6 @@ import com.example.artur.timeger.model.Quest;
 import com.example.artur.timeger.model.Tag;
 import com.example.artur.timeger.model.User;
 
-import java.sql.SQLData;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -265,7 +263,6 @@ public class DatabaseHelper extends SQLiteOpenHelper
     {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
-
         values.put(KEY_TAG_NAME, tag.getTagName());
         values.put(KEY_CREATED_AT, getDateTime());
 
