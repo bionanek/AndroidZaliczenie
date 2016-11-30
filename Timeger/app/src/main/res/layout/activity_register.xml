@@ -12,23 +12,68 @@
     tools:context="com.example.artur.timeger.RegisterActivity">
 
     <EditText
+        android:id="@+id/login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/login"
-        android:hint="@string/registerLoginReceive"
+        android:layout_weight="0.5"
+        android:hint="Podaj nazwe użytkownika"
         android:inputType="text"/>
     <EditText
+        android:id="@+id/email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="0.5"
+        android:hint="Podaj adres E-mail"
+        android:inputType="textEmailAddress"/>
+    <EditText
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.5"
+        android:hint="Podaj swoje imię"
+        android:inputType="text"/>
+    <EditText
+        android:id="@+id/surname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.5"
+        android:hint="Podaj hasło"
+        android:inputType="textPassword"/>
+    <EditText
         android:id="@+id/pass"
-        android:hint="@string/registerPasswordReceive"
-        android:inputType="textPassword"
-        />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.5"
+        android:hint="Powtorz haslo"
+        android:inputType="textPassword"/>
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/registerButtonReceive"
-        android:onClick="onRegisterButtonClick"/>
+        android:layout_weight="1"
+        android:visibility="invisible"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:orientation="horizontal"
+        android:layout_marginBottom="-17dp"
+        >
+        <Button
+            android:id="@+id/regRegisterClick"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_weight="1"
+            android:text="@string/registerButton"
+            android:layout_gravity="center"
+            />
+        <Button
+            android:id="@+id/regLoginClick"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_weight="1"
+            android:text="@string/loginButton"
+            android:layout_gravity="center"/>
+    </LinearLayout>
 
 </LinearLayout>

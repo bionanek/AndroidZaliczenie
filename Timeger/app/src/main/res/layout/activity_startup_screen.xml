@@ -18,21 +18,21 @@
 
         <ImageView
             android:id="@+id/aboutApplicationClick"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_gravity="center"
             android:src="@drawable/info_icon"/>
 
         <ImageView
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_width="0dp"
             android:layout_weight="1"
             android:src="@drawable/night_mode"/>
         <ImageView
             android:id="@+id/onTurnOffClick"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_width="0dp"
             android:layout_weight="1"
             android:clickable="true"
             android:src="@drawable/turn_off"/>
@@ -66,15 +66,13 @@
         android:orientation="horizontal"
         android:layout_marginBottom="-17dp"
         >
-
         <Button
             android:id="@+id/onLoginClick"
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:layout_weight="1"
             android:text="@string/loginButton"
-            android:layout_gravity="center"
-            android:onClick="Login"/>
+            android:layout_gravity="center"/>
         <Button
             android:id="@+id/onRegisterClick"
             android:layout_width="match_parent"

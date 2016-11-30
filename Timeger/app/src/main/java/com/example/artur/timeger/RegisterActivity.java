@@ -1,24 +1,17 @@
 package com.example.artur.timeger;
 
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.support.v4.database.DatabaseUtilsCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.io.File;
-
 public class RegisterActivity extends AppCompatActivity {
 
-    private SQLiteDatabase db;
-    private EditText loginText;
-    private EditText passText;
+    private EditText loginText,passwordText;
+    private Button loginButton,registerButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,57 +19,44 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         loginText = (EditText) findViewById(R.id.login);
-        passText = (EditText) findViewById(R.id.pass);
+        passwordText = (EditText) findViewById(R.id.pass);
+        loginButton = (Button) findViewById(R.id.regLoginClick);
+        registerButton = (Button) findViewById(R.id.regRegisterClick);
+
+        //go to login activity
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent goLogin = new Intent(RegisterActivity.this,LoginActivity.class);
+                startActivity(goLogin);
+            }
+        });
+
+        //register user operation
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (loginText.getText().length() != 0 && passwordText.getText().length() != 0)
+                {
+                    Intent succedRegister = new Intent(RegisterActivity.this, LoginActivity.class);
+                    startActivity(succedRegister);
+                }
+                else if (loginText.getText().length() == 0 || passwordText.getText().length() == 0)
+                {
+                   if (loginText.getText().length() == 0)
+                   {
+                       Toast.makeText(RegisterActivity.this, "Nie wprowadzono loginu", Toast.LENGTH_SHORT).show();
+                   }
+                    if (passwordText.getText().length() == 0)
+                    {
+                        Toast.makeText(RegisterActivity.this, "Nie wprowadzono hasła", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
     }
 
-    private void getLogin()
-    {
-        return;
-    }
-
-    public void onBackButtonClick(View view)
-    {
-
-        Intent mainActivity = new Intent(this,LoginActivity.class);
-        startActivity(mainActivity);
-    }
-    public void onCreateButtonClick(View view)
-    {
-    }
-
-    public void onCheckButtonClick(View view)
-    {
-        File database = getApplicationContext().getDatabasePath("Timeger.db");
-        if(database.exists())
-        {
-            Toast.makeText(this, "tru", Toast.LENGTH_SHORT).show();
-            Log.e("Check", "istnieje chyba");
-        }
-        else
-            Toast.makeText(this, "fals", Toast.LENGTH_SHORT).show();
-
-    }
-
-
-    public void onDeleteButtonClick(View view)
-    {
-        Toast.makeText(this, "deleted", Toast.LENGTH_SHORT).show();
-    }
-
-
-    public void onRegisterButtonClick(View view)
-    {
-        String login = loginText.getText().toString();
-        String pass = passText.getText().toString();
-
-        loginText.setText("");
-        passText.setText("");
-        Toast.makeText(this, "User has been added", Toast.LENGTH_SHORT).show();
-    }
-
-    public void onDownloadClick(View view)
-    {
-    }
 }
 
 
