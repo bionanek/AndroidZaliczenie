@@ -24,9 +24,13 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.artur.timeger.model.Quest;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
@@ -157,9 +161,25 @@ public class MainActivity extends AppCompatActivity
         TableLayout table = (TableLayout) findViewById(R.id.TableFourButtons);
         table.setBackgroundColor(Color.WHITE);
 
+        List<Quest> quests = new ArrayList<>();
+        int day = 1;
+        for(int i = 0; i < 10; i++)
+        {
+            Quest quest = new Quest();
+            quest.setDescription("TEST" + i);
+            quest.setQuestDate("2016/11/" + day);
+            if(i%3 == 0)
+            {
+                quest.setStatus("Done");
+                quest.setAlarm("test dzwonka");
+            }
+            quests.add(quest);
 
+            day++;
+        }
+        int licznik = 0;
         //tutaj robi do chuja pana wiersze
-        for (int row = 0; row < NUM_ROWS; row++) {
+        for (int row = 0; row < quests.size()/2; row++) { //NUM_ROWS
             TableRow tableRow = new TableRow(this);
             tableRow.setLayoutParams(new TableLayout.LayoutParams(
                     TableLayout.LayoutParams.MATCH_PARENT,
@@ -188,12 +208,13 @@ public class MainActivity extends AppCompatActivity
                 tableRow.addView(columnInMainTable);
 
 
-
-
-
-
                 //to jest cos od pierwszego labela
-                TableRow firstRowInKAFEL = new TableRow(this);
+
+
+                Kafel kafel = new Kafel(this, columnInMainTable, lp, quests.get(licznik));
+                licznik++;
+
+                /*TableRow firstRowInKAFEL = new TableRow(this);
                 firstRowInKAFEL.setLayoutParams(new TableRow.LayoutParams(
                         TableRow.LayoutParams.MATCH_PARENT,
                         TableRow.LayoutParams.MATCH_PARENT,
@@ -297,7 +318,7 @@ public class MainActivity extends AppCompatActivity
                         gridButtonClicked(String.valueOf(btnExecute .getText()));
                     }
                 });
-                thirdRowInKAFEL.addView(btnExecute );
+                thirdRowInKAFEL.addView(btnExecute );*/
 
             }
         }
